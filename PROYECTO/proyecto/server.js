@@ -28,14 +28,11 @@ mongoose.connect(process.env.MONGO_URI)
 // ====================================================
 // ⚙️ Middlewares globales
 // ====================================================
-
-// Permitir peticiones desde el mismo Render (frontend + backend juntos)
 app.use(cors({
-  origin: '*',
+  origin: '*', // o especifica tu frontend si es separado
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true
 }));
-
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 
@@ -56,7 +53,7 @@ app.use(session({
     collectionName: 'sessions'
   }),
   cookie: {
-    secure: false, // cámbialo a true si Render usa HTTPS (normalmente sí)
+    secure: false, // cámbialo a true si Render usa HTTPS
     maxAge: 1000 * 60 * 60 * 24 // 1 día
   }
 }));
@@ -86,6 +83,11 @@ app.get(['/register', '/register.html'], (req, res) => res.sendFile(path.join(__
 app.get(['/loanform', '/loanform.html'], (req, res) => res.sendFile(path.join(__dirname, 'views', 'loanform.html')));
 app.get(['/solicitudes', '/solicitudes.html'], (req, res) => res.sendFile(path.join(__dirname, 'views', 'solicitudes.html')));
 app.get(['/insertar-producto', '/insertar-producto.html'], (req, res) => res.sendFile(path.join(__dirname, 'views', 'insertar-producto.html')));
+
+// 🔹 NUEVA RUTA para Categorías (corrige tu error)
+app.get(['/categorias', '/categorias.html', '/Categorias', '/Categorias.html'], (req, res) =>
+  res.sendFile(path.join(__dirname, 'views', 'categorias.html'))
+);
 
 // ====================================================
 // 🛒 Ruta para insertar productos

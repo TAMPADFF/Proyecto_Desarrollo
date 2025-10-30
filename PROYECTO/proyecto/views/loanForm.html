@@ -4,8 +4,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Solicitud de Préstamo</title>
+
+    <!-- ✅ Rutas absolutas (Render necesita /public/ y /views/ explícitos) -->
     <link rel="stylesheet" href="/css/theme.css" />
     <link rel="stylesheet" href="/css/loanform.css" />
+
     <style>
       /* 🧭 Navbar */
       .navbar {
@@ -34,7 +37,6 @@
         transform: translateY(-1px);
       }
       .navbar a:last-child {
-        /* Cerrar sesión */
         background-color: #ff4d4d;
       }
       .navbar a:last-child:hover {
@@ -51,12 +53,12 @@
       }
       h1 {
         text-align: center;
-        color: #ffd700; /* dorado */
+        color: #ffd700;
         margin: 24px 0 10px;
         text-shadow: 0 0 8px rgba(0, 0, 0, 0.4);
       }
 
-      /* 📋 Formulario (card) */
+      /* 📋 Formulario */
       form {
         max-width: 680px;
         margin: 20px auto 40px;
@@ -83,7 +85,6 @@
         resize: vertical;
       }
 
-      /* 🧩 Inputs y selects */
       input[type="number"],
       input[type="file"],
       input[type="text"],
@@ -160,9 +161,9 @@
     </style>
   </head>
   <body>
-    <!-- Navbar -->
+    <!-- 🔝 Navbar -->
     <div class="navbar">
-      <a href="/loanForm.html">Solicitud de Préstamo</a>
+      <a href="/loanform.html">Solicitud de Préstamo</a>
       <a href="/solicitudes.html">Lista de Solicitudes</a>
       <a href="/payments.html">Realización de Pagos</a>
       <a href="/productos.html">Productos en Venta</a>
@@ -173,7 +174,8 @@
 
     <form id="prestamoForm" enctype="multipart/form-data">
       <label for="categoria">Categoría del artículo:</label>
-      <select id="categoria" name="categoria">
+      <select id="categoria" name="categoria" required>
+        <option value="">Seleccione una categoría</option>
         <option value="auto">Auto</option>
         <option value="celular">Celular</option>
         <option value="joya">Joya</option>
@@ -188,30 +190,16 @@
       <textarea id="descripcion" name="descripcion" required></textarea>
 
       <label for="valor_propuesto">Valor propuesto:</label>
-      <input
-        type="number"
-        id="valor_propuesto"
-        name="valor_propuesto"
-        required
-      />
+      <input type="number" id="valor_propuesto" name="valor_propuesto" required />
 
-      <label for="tiempo">Tiempo del préstamo:</label>
-      <input
-        type="number"
-        id="tiempo"
-        name="tiempo"
-        min="1"
-        max="24"
-        required
-      />
+      <label for="tiempo">Tiempo del préstamo (meses):</label>
+      <input type="number" id="tiempo" name="tiempo" min="1" max="24" required />
 
       <label for="fotos">Fotos del artículo:</label>
-      <input type="file" id="fotos" name="fotos" required />
+      <input type="file" id="fotos" name="fotos" accept="image/*" required />
 
-      <label for="documento_tecnico"
-        >Documento técnico (solo artículos electrónicos/tecnológicos):</label
-      >
-      <input type="file" id="documento_tecnico" name="documento_tecnico" />
+      <label for="documento_tecnico">Documento técnico (opcional):</label>
+      <input type="file" id="documento_tecnico" name="documento_tecnico" accept=".pdf,.doc,.docx" />
 
       <button type="submit">Enviar Solicitud</button>
     </form>
@@ -219,32 +207,30 @@
     <div id="notification"></div>
 
     <script>
-      document
-        .getElementById("prestamoForm")
-        .addEventListener("submit", async function (event) {
-          event.preventDefault();
+      document.getElementById("prestamoForm").addEventListener("submit", async function (event) {
+        event.preventDefault();
 
-          const form = document.getElementById("prestamoForm");
-          const formData = new FormData(form);
+        const form = document.getElementById("prestamoForm");
+        const formData = new FormData(form);
 
-          try {
-            const response = await fetch("/solicitud-prestamo", {
-              method: "POST",
-              body: formData,
-            });
-            const result = await response.json();
+        try {
+          const response = await fetch("/solicitud-prestamo", {
+            method: "POST",
+            body: formData,
+          });
+          const result = await response.json();
 
-            const notification = document.getElementById("notification");
-            notification.textContent = result.message || "Operación realizada";
-            notification.className = response.ok ? "success" : "error";
-            notification.style.display = "block";
-          } catch (error) {
-            const notification = document.getElementById("notification");
-            notification.textContent = "Error al enviar la solicitud";
-            notification.className = "error";
-            notification.style.display = "block";
-          }
-        });
+          const notification = document.getElementById("notification");
+          notification.textContent = result.message || "Operación realizada correctamente";
+          notification.className = response.ok ? "success" : "error";
+          notification.style.display = "block";
+        } catch (error) {
+          const notification = document.getElementById("notification");
+          notification.textContent = "❌ Error al enviar la solicitud";
+          notification.className = "error";
+          notification.style.display = "block";
+        }
+      });
 
       async function cerrarSesion() {
         try {

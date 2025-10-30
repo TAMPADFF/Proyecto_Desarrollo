@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Productos en Venta</title>
+    <link rel="stylesheet" href="/css/theme.css" />
+    <link rel="stylesheet" href="/css/products.css" />
+    <style>
+      /* 🌙 Fondo general */
+      body {
+        font-family: Arial, sans-serif;
+        background: linear-gradient(180deg, #0f2027, #203a43, #2c5364);
+        color: #f2f2f2;
+        margin: 0;
+        padding: 0;
+      }
+
+      /* 🧭 Navbar */
+      .navbar {
+        display: flex;
+        gap: 10px;
+        background-color: #161b22;
+        padding: 12px 16px;
+        border-bottom: 2px solid #00bfa6;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+        position: sticky;
+        top: 0;
+        z-index: 50;
+      }
+
+      .navbar a {
+        color: #fff;
+        padding: 10px 16px;
+        text-decoration: none;
+        text-align: center;
+        background-color: #00bfa6;
+        border-radius: 6px;
+        font-weight: 700;
+        transition: background-color 0.3s, transform 0.2s;
+      }
+
+      .navbar a:hover {
+        background-color: #009e89;
+        transform: translateY(-1px);
+      }
+
+      .navbar a:last-child {
+        background-color: #ff4d4d;
+      }
+
+      .navbar a:last-child:hover {
+        background-color: #d93636;
+      }
+
+      /* 🏷️ Título */
+      h1 {
+        text-align: center;
+        color: #ffd700;
+        margin: 30px 0 20px;
+        text-shadow: 0 0 8px rgba(0, 0, 0, 0.4);
+      }
+
+      /* 🎯 Filtros */
+      .filters {
+        text-align: center;
+        margin-bottom: 30px;
+      }
+
+      .filters label {
+        font-weight: bold;
+        color: #00bfa6;
+        margin-right: 10px;
+      }
+
+      .filters select {
+        padding: 10px;
+        border-radius: 6px;
+        border: 1px solid #2d333b;
+        background-color: #0d1117;
+        color: #fff;
+        transition: border-color 0.3s, box-shadow 0.3s;
+      }
+
+      .filters select:focus {
+        outline: none;
+        border-color: #00bfa6;
+        box-shadow: 0 0 6px #00bfa6;
+      }
+
+      /* 🛍️ Lista de productos */
+      .product-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 20px;
+        padding: 0 40px 60px;
+      }
+
+      /* 💎 Tarjetas de producto */
+      .product-card {
+        background-color: #161b22;
+        border-radius: 10px;
+        padding: 20px;
+        text-align: center;
+        box-shadow: 0 6px 14px rgba(0, 0, 0, 0.6);
+        border: 1px solid #00bfa6;
+        transition: transform 0.3s, box-shadow 0.3s;
+      }
+
+      .product-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 22px rgba(0, 191, 166, 0.3);
+      }
+
+      .product-card img {
+        max-width: 100%;
+        border-radius: 8px;
+        margin-bottom: 10px;
+        border: 1px solid #2d333b;
+      }
+
+      .product-card h3 {
+        color: #ffd700;
+        margin: 10px 0;
+      }
+
+      .product-card p {
+        color: #c9d1d9;
+        margin: 6px 0;
+      }
+
+      .product-card .price {
+        color: #00bfa6;
+        font-size: 1.2em;
+        margin-bottom: 15px;
+        font-weight: bold;
+      }
+
+      .product-card button {
+        padding: 10px;
+        width: 100%;
+        background-color: #00bfa6;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: background-color 0.3s, transform 0.2s;
+      }
+
+      .product-card button:hover {
+        background-color: #009e89;
+        transform: scale(1.03);
+      }
+
+      /* 📱 Responsivo */
+      @media (max-width: 768px) {
+        .navbar {
+          flex-wrap: wrap;
+          justify-content: center;
+        }
+
+        .product-list {
+          grid-template-columns: 1fr;
+          padding: 0 20px 40px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 🧭 Navbar -->
+    <div class="navbar">
+      <a href="/loanForm.html">Solicitud de Préstamo</a>
+      <a href="/solicitudes.html">Lista de Solicitudes</a>
+      <a href="/payments.html">Realización de Pagos</a>
+      <a href="/productos.html">Productos en Venta</a>
+      <a href="#" onclick="cerrarSesion()">Cerrar sesión</a>
+    </div>
+
+    <h1>Productos en Venta</h1>
+
+    <!-- 🎯 Filtros -->
+    <div class="filters">
+      <label for="categoria">Filtrar por categoría:</label>
+      <select id="categoria" onchange="filtrarProductos()">
+        <option value="todos">Todos</option>
+        <option value="celular">Celulares</option>
+        <option value="electronico">Electrónicos</option>
+        <option value="joya">Joyas</option>
+        <option value="reloj">Relojes</option>
+        <option value="diamante">Diamantes</option>
+        <option value="moneda">Monedas</option>
+        <option value="herramienta">Herramientas</option>
+      </select>
+    </div>
+
+    <!-- 🛍️ Listado de productos -->
+    <div class="product-list" id="product-list">
+      <!-- Productos generados dinámicamente -->
+    </div>
+
+    <script>
+      let productos = [];
+
+      // 📦 Cargar productos disponibles
+      async function cargarProductos() {
+        try {
+          const response = await fetch("/productos-en-venta");
+          productos = await response.json();
+          mostrarProductos(productos);
+        } catch (error) {
+          console.error("Error al cargar los productos:", error);
+        }
+      }
+
+      // 🖼️ Mostrar productos en la interfaz
+      function mostrarProductos(productos) {
+        const productList = document.getElementById("product-list");
+        productList.innerHTML = "";
+
+        productos.forEach((p) => {
+          productList.innerHTML += `
+            <div class="product-card">
+              <img src="${p.foto}" alt="Imagen de ${p.descripcion}">
+              <h3>${p.descripcion}</h3>
+              <p><strong>Categoría:</strong> ${p.categoria}</p>
+              <p class="price">Q${p.precio}</p>
+              <button onclick="comprarProducto('${p._id}')">Comprar</button>
+            </div>`;
+        });
+      }
+
+      // 🔍 Filtrar productos
+      function filtrarProductos() {
+        const categoria = document.getElementById("categoria").value;
+        const filtrados =
+          categoria === "todos"
+            ? productos
+            : productos.filter((p) => p.categoria === categoria);
+        mostrarProductos(filtrados);
+      }
+
+      // 💳 Comprar producto
+      async function comprarProducto(productoId) {
+        try {
+          const response = await fetch(`/comprar-producto/${productoId}`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+          });
+          const result = await response.json();
+          if (response.ok) {
+            alert(result.message);
+            cargarProductos();
+          } else {
+            alert("Error al comprar el producto");
+          }
+        } catch (error) {
+          console.error("Error al comprar el producto:", error);
+        }
+      }
+
+      // 🚀 Inicializar
+      window.onload = cargarProductos;
+
+      // 🔐 Cerrar sesión
+      async function cerrarSesion() {
+        try {
+          const response = await fetch("/auth/logout", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+          });
+          if (response.ok) window.location.href = "/login.html";
+          else alert("Error al cerrar sesión");
+        } catch (error) {
+          console.error("Error al cerrar sesión:", error);
+        }
+      }
+
+      // ⚙️ Verificar préstamos vencidos (función auxiliar)
+      async function verificarPrestamosVencidos() {
+        try {
+          const response = await fetch("/verificar-prestamos-vencidos", {
+            method: "POST",
+          });
+          const result = await response.json();
+          alert(result.message);
+        } catch (error) {
+          console.error("Error al verificar préstamos vencidos:", error);
+        }
+      }
+    </script>
+  </body>
+</html>

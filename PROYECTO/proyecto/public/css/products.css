@@ -1,0 +1,140 @@
+/* 🌙 Estilos globales en modo oscuro coherente */
+body {
+  font-family: Arial, sans-serif;
+  background: linear-gradient(180deg, #0f2027, #203a43, #2c5364);
+  color: #f2f2f2;
+  margin: 0;
+  padding: 20px;
+  min-height: 100vh;
+}
+
+/* 🔹 Barra de navegación */
+.navbar {
+  overflow: hidden;
+  background-color: #161b22;
+  margin-bottom: 25px;
+  border-bottom: 2px solid #00bfa6;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.navbar a {
+  float: left;
+  display: block;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 22px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.navbar a:hover {
+  background-color: #00bfa6;
+  color: #fff;
+}
+
+/* 🏷️ Título principal */
+h1 {
+  text-align: center;
+  margin-bottom: 25px;
+  color: #ffd700; /* dorado suave */
+  text-shadow: 0 0 8px rgba(0, 0, 0, 0.6);
+}
+
+/* 🎛️ Filtros */
+.filters {
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.filters select {
+  padding: 10px 15px;
+  background-color: #0d1117;
+  color: #f2f2f2;
+  border: 1px solid #00bfa6;
+  border-radius: 6px;
+  outline: none;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.filters select:focus {
+  border-color: #00bfa6;
+  box-shadow: 0 0 6px #00bfa6;
+}
+
+/* 🛍️ Listado de productos */
+.product-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 25px;
+}
+
+/* 🧱 Tarjeta de producto */
+.product-card {
+  background-color: #161b22;
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+  border: 1px solid #00bfa6;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 15px rgba(0, 191, 166, 0.3);
+}
+
+/* 🖼️ Imagen */
+.product-card img {
+  max-width: 100%;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  border: 1px solid #2d333b;
+}
+
+/* 🏷️ Título y descripción */
+.product-card h3 {
+  color: #f2f2f2;
+  margin: 10px 0 5px;
+  font-size: 1.2rem;
+}
+
+.product-card p {
+  color: #a0a0a0;
+  margin-bottom: 10px;
+  font-size: 0.95rem;
+}
+
+/* 💰 Precio */
+.product-card .price {
+  color: #ffd700; /* dorado suave para el precio */
+  font-size: 1.2em;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+/* 🛒 Botón */
+.product-card button {
+  padding: 10px;
+  width: 100%;
+  background-color: #00bfa6;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.product-card button:hover {
+  background-color: #009e89;
+  transform: scale(1.05);
+}
+
+/* ✨ Responsivo */
+@media (max-width: 600px) {
+  .product-list {
+    grid-template-columns: 1fr;
+  }
+}

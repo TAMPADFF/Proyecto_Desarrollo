@@ -1,0 +1,126 @@
+/* 🌙 Estilos básicos */
+body {
+  font-family: Arial, sans-serif;
+  background: linear-gradient(180deg, #0f2027, #203a43, #2c5364);
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  color: #f2f2f2;
+}
+
+/* 📦 Contenedor principal */
+.container {
+  background-color: #161b22;
+  color: #f2f2f2;
+  padding: 30px;
+  border-radius: 12px;
+  max-width: 420px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.5);
+  border: 1px solid #00bfa6;
+  animation: fadeIn 0.8s ease-in-out;
+}
+
+/* 🔽 Selectores e inputs */
+select,
+button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border-radius: 6px;
+  border: 1px solid #2d333b;
+  background-color: #0d1117;
+  color: #ffffff;
+  transition: border-color 0.3s, box-shadow 0.3s, transform 0.2s;
+}
+
+select:focus {
+  outline: none;
+  border-color: #00bfa6;
+  box-shadow: 0 0 6px #00bfa6;
+}
+
+/* 🔘 Botón principal */
+button {
+  background-color: #00bfa6;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 15px;
+}
+
+button:hover {
+  background-color: #009e89;
+  transform: scale(1.05);
+}
+
+/* 🔔 Notificaciones */
+#notification {
+  display: none;
+  padding: 10px;
+  margin-top: 12px;
+  border-radius: 6px;
+  font-weight: bold;
+}
+
+#notification.success {
+  background-color: rgba(0, 191, 166, 0.2);
+  color: #00bfa6;
+  border: 1px solid #00bfa6;
+}
+
+#notification.error {
+  background-color: rgba(255, 50, 50, 0.2);
+  color: #ff4d4d;
+  border: 1px solid #ff4d4d;
+}
+
+/* 🧭 Navbar */
+.navbar {
+  overflow: hidden;
+  background-color: #161b22;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  padding: 12px 0;
+  display: flex;
+  justify-content: center;
+  border-bottom: 2px solid #00bfa6;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+  z-index: 10;
+}
+
+.navbar a {
+  color: #ffffff;
+  text-align: center;
+  padding: 10px 18px;
+  text-decoration: none;
+  font-weight: bold;
+  border-radius: 6px;
+  margin: 0 5px;
+  background-color: transparent;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.navbar a:hover {
+  background-color: #00bfa6;
+  color: #ffffff;
+}
+
+/* ✨ Animación de entrada */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

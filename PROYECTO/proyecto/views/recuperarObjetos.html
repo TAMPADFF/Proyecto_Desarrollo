@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recuperar Objetos</title>
+    <link rel="stylesheet" href="/css/theme.css">
+    <link rel="stylesheet" href="/css/recuperarObjetos.css"> <!-- Cargar el CSS desde un archivo externo -->
+</head>
+<body>
+    <!-- Navbar -->
+    <div class="navbar">
+      <a href="/loanForm.html">Solicitud de Préstamo</a>
+      <a href="/solicitudes.html">Lista de Solicitudes</a>
+      <a href="/payments.html">Realización de Pagos</a>
+      <a href="/productos.html">Productos en Venta</a>
+      <a href="/recuperarObjetos.html">Recuperar objetos</a>
+      <a href="#" onclick="cerrarSesion()">Cerrar sesión</a>
+    </div>
+
+    <div class="container">
+        <h2>Recuperar Objetos</h2>
+        <form id="recuperarForm">
+            <label for="prestamo">Seleccione un Préstamo:</label>
+            <select id="prestamo" name="prestamo">
+                <!-- Opciones generadas dinámicamente -->
+            </select>
+            <button type="submit">Recuperar Objeto</button>
+        </form>
+        <div id="notification"></div>
+    </div>
+
+    <script>
+      // Cargar préstamos listos para recuperación
+      async function cargarPrestamos() {
+          try {
+              const response = await fetch("/prestamos-recuperables");
+              const prestamos = await response.json();
+              const prestamoSelect = document.getElementById("prestamo");
+
+              prestamoSelect.innerHTML = ""; // Limpiar el select de préstamos
+
+              prestamos.forEach((prestamo) => {
+                  prestamoSelect.innerHTML += `
+                      <option value="${prestamo._id}">Préstamo ID: ${prestamo._id} - ${prestamo.descripcion}</option>
+                  `;
+              });
+          } catch (error) {
+              console.error("Error al cargar los préstamos:", error);
+          }
+      }
+
+      // Evento para recuperar el objeto
+      document.getElementById("recuperarForm").addEventListener("submit", async function (event) {
+          event.preventDefault();
+          const prestamoId = document.getElementById("prestamo").value;
+          const notification = document.getElementById("notification");
+
+          try {
+              const response = await fetch(`/recuperar-objeto/${prestamoId}`, {
+                  method: "POST",
+              });
+
+              const result = await response.json();
+              notification.textContent = result.message;
+              notification.className = response.ok ? "success" : "error";
+              notification.style.display = "block";
+
+              if (response.ok) {
+                  cargarPrestamos(); // Recargar los préstamos disponibles para recuperación
+              }
+          } catch (error) {
+              console.error("Error al recuperar el objeto:", error);
+              notification.textContent = "Error al procesar la solicitud.";
+              notification.className = "error";
+              notification.style.display = "block";
+          }
+      });
+
+      window.onload = cargarPrestamos;
+    </script>
+</body>
+</html>

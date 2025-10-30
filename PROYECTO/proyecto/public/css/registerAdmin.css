@@ -1,0 +1,139 @@
+/* 🌙 Estilos generales */
+body {
+  font-family: Arial, sans-serif;
+  background: linear-gradient(180deg, #0f2027, #203a43, #2c5364);
+  color: #f2f2f2;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+}
+
+h1,
+h2 {
+  color: #ffd700; /* dorado suave */
+  text-align: center;
+  margin-top: 80px;
+  text-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+}
+
+/* 🔹 Navbar */
+.navbar {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  background-color: #161b22;
+  padding: 14px 20px;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  border-bottom: 2px solid #00bfa6;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+}
+
+.navbar a {
+  color: white;
+  padding: 10px 18px;
+  text-decoration: none;
+  text-align: center;
+  background-color: #00bfa6;
+  border-radius: 6px;
+  margin-right: 10px;
+  font-weight: bold;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.navbar a:hover {
+  background-color: #009e89;
+  transform: scale(1.05);
+}
+
+/* 📦 Contenedor del formulario */
+.login-container {
+  max-width: 400px;
+  width: 100%;
+  margin: 100px auto 0 auto; /* espacio desde navbar */
+  padding: 0 20px;
+  display: flex;
+  justify-content: center;
+}
+
+/* 🧾 Caja del formulario */
+.login-box {
+  background-color: #161b22;
+  padding: 35px;
+  border-radius: 12px;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.5);
+  width: 100%;
+  max-width: 450px;
+  border: 1px solid #00bfa6;
+}
+
+/* 📋 Inputs y labels */
+.input-group {
+  margin-bottom: 18px;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #c9d1d9;
+}
+
+.input-group input,
+.input-group select {
+  width: 100%;
+  padding: 10px;
+  background-color: #0d1117;
+  border: 1px solid #2d333b;
+  border-radius: 6px;
+  color: #ffffff;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.input-group input:focus,
+.input-group select:focus {
+  outline: none;
+  border-color: #00bfa6;
+  box-shadow: 0 0 6px #00bfa6;
+}
+
+/* 🔘 Botón principal */
+.login-button {
+  width: 100%;
+  padding: 12px;
+  background-color: #00bfa6;
+  border: none;
+  border-radius: 6px;
+  color: #ffffff;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.login-button:hover {
+  background-color: #009e89;
+  transform: scale(1.04);
+}
+
+/* ✨ Animación suave al cargar */
+.login-box {
+  animation: fadeIn 0.8s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

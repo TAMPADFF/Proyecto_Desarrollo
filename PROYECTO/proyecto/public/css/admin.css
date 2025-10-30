@@ -1,0 +1,91 @@
+/* 🌙 Panel de Administración */
+body {
+  background: linear-gradient(180deg, #0f2027, #203a43, #2c5364);
+  color: #f2f2f2;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+}
+
+/* 🏷️ Encabezado principal */
+h1 {
+  text-align: center;
+  color: #ffd700; /* dorado suave */
+  margin-top: 25px;
+  text-shadow: 0 0 8px rgba(0, 0, 0, 0.4);
+}
+
+/* 🗂️ Contenedor principal de solicitudes */
+#solicitudes-pendientes-container {
+  background-color: #161b22;
+  padding: 25px;
+  margin: 30px auto;
+  max-width: 1100px;
+  border-radius: 12px;
+  border: 1px solid #00bfa6;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.6);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+#solicitudes-pendientes-container:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 20px rgba(0, 191, 166, 0.3);
+}
+
+/* 🏷️ Subtítulos */
+h2 {
+  color: #ffd700;
+  margin-bottom: 15px;
+  text-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
+}
+
+/* 🔹 Cada solicitud */
+div {
+  background-color: #0d1117;
+  margin-bottom: 20px;
+  padding: 15px;
+  border-radius: 8px;
+  border: 1px solid #2d333b;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+div:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 15px rgba(0, 191, 166, 0.25);
+}
+
+/* 🔘 Botones */
+button {
+  background-color: #00bfa6;
+  color: #ffffff;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+button:hover {
+  background-color: #009e89;
+  transform: scale(1.05);
+}
+
+/* ✨ Animación de carga */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+#solicitudes-pendientes-container,
+div {
+  animation: fadeIn 0.6s ease-in-out;
+}

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registro de Usuario</title>
+    <link rel="stylesheet" href="css/theme.css">
+    <link rel="stylesheet" href="css/registerAdmin.css" />
+  </head>
+  <body>
+    <!-- Navbar con enlaces a las diferentes secciones -->
+    <div class="navbar">
+      <a href="panelAdmin.html">Panel de Administración</a>
+      <a href="insertar-producto.html">Insertar Producto</a>
+      <a href="registerAdmin.html">Registrar</a>
+      <a href="Categorias.html">Registrar Categoría</a>
+      <a href="#" onclick="cerrarSesion()">Cerrar Sesión</a>
+    </div>
+
+    <div class="login-container">
+      <div class="login-box">
+        <h2>Registro de Usuario</h2>
+        <p>Crea una cuenta</p>
+
+        <form id="registerForm" action="/auth/register" method="POST">
+          <div class="input-group">
+            <label>Nombre</label>
+            <input
+              type="text"
+              placeholder="Ingresa el nombre"
+              id="nombre"
+              name="nombre"
+              required
+            />
+          </div>
+          <div class="input-group">
+            <label>Email</label>
+            <input
+              type="email"
+              placeholder="Ingresa el email"
+              id="correo"
+              name="correo"
+              required
+            />
+          </div>
+          <div class="input-group">
+            <label>Teléfono</label>
+            <input
+              type="tel"
+              placeholder="Ingresa el teléfono"
+              id="telefono"
+              name="telefono"
+              required
+            />
+          </div>
+          <div class="input-group">
+            <label>Dirección</label>
+            <input
+              type="text"
+              placeholder="Ingresa la dirección"
+              id="direccion"
+              name="direccion"
+              required
+            />
+          </div>
+          <div class="input-group">
+            <label>Contraseña</label>
+            <input
+              type="password"
+              placeholder="Ingresa la contraseña"
+              id="clave"
+              name="clave"
+              required
+            />
+          </div>
+          <div class="input-group">
+            <label>Confirma la contraseña</label>
+            <input
+              type="password"
+              placeholder="Confirma la contraseña"
+              id="confirmPassword"
+              name="confirmPassword"
+              required
+            />
+          </div>
+          <div class="input-group">
+            <label>Rol</label>
+            <select id="rol" name="rol">
+              <option value="cliente">Cliente</option>
+              <option value="administrador">Administrador</option>
+            </select>
+          </div>
+          <button type="submit" class="login-button">Registrar</button>
+        </form>
+      </div>
+    </div>
+
+    <script>
+      function volver() {
+        window.location.href = "/login.html"; // Cambia a la ruta de tu archivo login.html
+      }
+
+      document
+        .getElementById("registerForm")
+        .addEventListener("submit", async function (event) {
+          event.preventDefault();
+
+          const formData = {
+            nombre: document.getElementById("nombre").value,
+            correo: document.getElementById("correo").value,
+            telefono: document.getElementById("telefono").value,
+            direccion: document.getElementById("direccion").value,
+            clave: document.getElementById("clave").value,
+            confirmPassword: document.getElementById("confirmPassword").value,
+            rol: document.getElementById("rol").value,
+          };
+
+          try {
+            const response = await fetch("/auth/register", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(formData),
+            });
+
+            if (response.ok) {
+              window.location.href =
+                "/registerAdmin.html?success=Usuario registrado exitosamente";
+            } else {
+              const errorText = await response.text();
+              alert("Error en el registro: " + errorText);
+            }
+          } catch (error) {
+            alert("Error en el registro: " + error.message);
+          }
+        });
+    </script>
+    <!-- Script para manejar el cierre de sesión -->
+    <script>
+      async function cerrarSesion() {
+        try {
+          const response = await fetch("/auth/logout", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
+
+          if (response.ok) {
+            window.location.href = "/login.html"; // Redirigir al login tras cerrar sesión
+          } else {
+            alert("Error al cerrar sesión");
+          }
+        } catch (error) {
+          console.error("Error al cerrar sesión:", error);
+        }
+      }
+    </script>
+  </body>
+</html>

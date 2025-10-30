@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evaluación de Solicitud</title>
+    <link rel="stylesheet" href="/css/theme.css">
+    <link rel="stylesheet" href="/css/evaluacion.css"> <!-- Tu archivo CSS -->
+    <style>
+        /* Estilos para la navbar */
+        .navbar {
+            display: flex;
+            justify-content: flex-end; /* Alinea los elementos a la derecha */
+            background-color: #333;
+            padding: 14px 20px;
+        }
+
+        .navbar a {
+            color: white;
+            padding: 14px 20px;
+            text-decoration: none;
+            text-align: center;
+            background-color: #6a0dad; /* Color morado */
+            border-radius: 5px;
+        }
+
+        .navbar a:hover {
+            background-color: #7f00ff; /* Color morado más claro al pasar el cursor */
+            color: white;
+        }
+
+        /* Estilos del cuerpo */
+        body {
+            font-family: Arial, sans-serif;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navbar con el botón de regreso al panel -->
+<div class="navbar">
+    <a href="panelAdmin.html">Regresar al Panel</a>
+</div>
+
+<h1>Evaluación de Solicitud</h1>
+
+<!-- Aquí se mostrarán los detalles de la solicitud -->
+<div id="detalle-solicitud"></div>
+
+<!-- Formulario para ingresar valor evaluado y aprobar o rechazar -->
+<form id="evaluacionForm">
+    <label for="valorEvaluado">Valor Evaluado:</label>
+    <input type="number" id="valorEvaluado" name="valorEvaluado" required>
+
+    <label for="porcentajeAvaluo">Porcentaje de Avalúo:</label>
+    <input type="text" id="porcentajeAvaluo" name="porcentajeAvaluo" readonly>
+
+    <label for="numeroCuotas">Número de Cuotas:</label>
+    <input type="number" id="numeroCuotas" name="numeroCuotas" required>
+
+    <button type="submit">Aprobar</button>
+    <button type="button" onclick="rechazarSolicitud()">Rechazar</button>
+</form>
+
+<script src="/js/evaluacionSolicitud.js"></script>
+</body>
+</html>

@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Realización de Pagos</title>
+    <link rel="stylesheet" href="/css/theme.css" />
+    <link rel="stylesheet" href="/css/payments.css" />
+    <style>
+      /* 🌙 Fondo general */
+      body {
+        font-family: Arial, sans-serif;
+        background: linear-gradient(180deg, #0f2027, #203a43, #2c5364);
+        color: #f2f2f2;
+        margin: 0;
+        padding: 0;
+      }
+
+      /* 🧭 Navbar */
+      .navbar {
+        display: flex;
+        gap: 10px;
+        background-color: #161b22;
+        padding: 12px 16px;
+        border-bottom: 2px solid #00bfa6;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+        position: sticky;
+        top: 0;
+        z-index: 50;
+      }
+
+      .navbar a {
+        color: #fff;
+        padding: 10px 16px;
+        text-decoration: none;
+        text-align: center;
+        background-color: #00bfa6;
+        border-radius: 6px;
+        font-weight: 700;
+        transition: background-color 0.3s, transform 0.2s;
+      }
+
+      .navbar a:hover {
+        background-color: #009e89;
+        transform: translateY(-1px);
+      }
+
+      .navbar a:last-child {
+        background-color: #ff4d4d;
+      }
+
+      .navbar a:last-child:hover {
+        background-color: #d93636;
+      }
+
+      /* 🏷️ Título */
+      h1 {
+        text-align: center;
+        color: #ffd700;
+        margin: 30px 0 20px;
+        text-shadow: 0 0 8px rgba(0, 0, 0, 0.4);
+      }
+
+      /* 📦 Contenedor general */
+      .container {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 0 16px 40px;
+      }
+
+      /* 💳 Bloques */
+      .prestamo-info,
+      .payment-form {
+        background-color: #161b22;
+        padding: 20px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        box-shadow: 0 6px 14px rgba(0, 0, 0, 0.6);
+        border: 1px solid #00bfa6;
+      }
+
+      .prestamo-info p {
+        margin: 8px 0;
+        color: #c9d1d9;
+      }
+
+      .prestamo-info strong {
+        color: #00bfa6;
+      }
+
+      h2 {
+        text-align: center;
+        color: #ffd700;
+      }
+
+      /* 📋 Campos */
+      select,
+      input {
+        width: 100%;
+        padding: 10px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        border-radius: 6px;
+        border: 1px solid #2d333b;
+        background-color: #0d1117;
+        color: #fff;
+        transition: border-color 0.3s, box-shadow 0.3s;
+      }
+
+      select:focus,
+      input:focus {
+        outline: none;
+        border-color: #00bfa6;
+        box-shadow: 0 0 6px #00bfa6;
+      }
+
+      /* 🔘 Botón principal */
+      button {
+        width: 100%;
+        padding: 12px;
+        margin-top: 10px;
+        background-color: #00bfa6;
+        color: #fff;
+        border: none;
+        border-radius: 6px;
+        font-weight: bold;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s, transform 0.2s;
+      }
+
+      button:hover {
+        background-color: #009e89;
+        transform: scale(1.03);
+      }
+
+      /* 🔔 Notificación */
+      #notification {
+        display: none;
+        padding: 10px;
+        margin-top: 15px;
+        border-radius: 6px;
+        font-weight: bold;
+        text-align: center;
+      }
+
+      #notification.success {
+        background-color: rgba(0, 191, 166, 0.2);
+        color: #00bfa6;
+        border: 1px solid #00bfa6;
+      }
+
+      #notification.error {
+        background-color: rgba(255, 50, 50, 0.2);
+        color: #ff4d4d;
+        border: 1px solid #ff4d4d;
+      }
+
+      /* 📱 Responsivo */
+      @media (max-width: 600px) {
+        .navbar {
+          flex-wrap: wrap;
+          justify-content: center;
+        }
+        .container {
+          padding: 0 12px 30px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 🧭 Navbar -->
+    <div class="navbar">
+      <a href="/loanForm.html">Solicitud de Préstamo</a>
+      <a href="/solicitudes.html">Lista de Solicitudes</a>
+      <a href="/payments.html">Realización de Pagos</a>
+      <a href="/productos.html">Productos en Venta</a>
+      <a href="#" onclick="cerrarSesion()">Cerrar sesión</a>
+    </div>
+
+    <h1>Realización de Pagos</h1>
+
+    <div class="container">
+      <!-- 💰 Información del préstamo -->
+      <div class="prestamo-info">
+        <label for="prestamo">Selecciona un Préstamo:</label>
+        <select
+          id="prestamo"
+          name="prestamo"
+          onchange="mostrarDetallesPrestamo()"
+        >
+          <!-- Opciones generadas dinámicamente -->
+        </select>
+
+        <div id="detallesPrestamo">
+          <p><strong>Monto Total:</strong> Q<span id="monto_total">0</span></p>
+          <p>
+            <strong>Cuotas Restantes:</strong>
+            <span id="cuotas_restantes">0</span>
+          </p>
+          <p><strong>Valor Cuota:</strong> Q<span id="valor_cuota">0</span></p>
+          <p><strong>Plazo:</strong> <span id="plazo">0</span> semanas</p>
+        </div>
+      </div>
+
+      <!-- 💳 Formulario de pago -->
+      <div class="payment-form">
+        <h2>Realizar Pago</h2>
+        <form id="pagoForm">
+          <label for="monto">Monto a Pagar:</label>
+          <input type="number" id="monto" name="monto" required min="1" />
+          <button type="submit">Pagar Cuota</button>
+        </form>
+        <div id="notification"></div>
+      </div>
+    </div>
+
+    <!-- 🧠 Scripts -->
+    <script>
+      let prestamos = [];
+
+      async function cargarPrestamos() {
+        try {
+          const response = await fetch("/loan-details");
+          prestamos = await response.json();
+
+          const select = document.getElementById("prestamo");
+          select.innerHTML = "";
+
+          prestamos.forEach((p, i) => {
+            select.innerHTML += `<option value="${i}">Préstamo ${i + 1} - Q${
+              p.valor_total
+            }</option>`;
+          });
+
+          if (prestamos.length > 0) mostrarDetallesPrestamo();
+        } catch (error) {
+          console.error("Error al cargar los préstamos:", error);
+        }
+      }
+
+      function mostrarDetallesPrestamo() {
+        const i = document.getElementById("prestamo").value;
+        const p = prestamos[i];
+        document.getElementById("monto_total").textContent = p.valor_total;
+        document.getElementById("cuotas_restantes").textContent =
+          p.numero_cuotas;
+        document.getElementById("valor_cuota").textContent = p.valor_cuota;
+        document.getElementById("plazo").textContent = p.tiempo;
+      }
+
+      document
+        .getElementById("pagoForm")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+          const i = document.getElementById("prestamo").value;
+          const prestamoId = prestamos[i]._id;
+          const monto = document.getElementById("monto").value;
+          try {
+            const res = await fetch("/validar-pago", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ prestamoId, monto }),
+            });
+            const result = await res.json();
+            const notif = document.getElementById("notification");
+            notif.textContent = result.message;
+            notif.className = res.ok ? "success" : "error";
+            notif.style.display = "block";
+            if (res.ok) cargarPrestamos();
+          } catch (error) {
+            console.error("Error al realizar el pago:", error);
+          }
+        });
+
+      window.onload = cargarPrestamos;
+
+      async function cerrarSesion() {
+        try {
+          const res = await fetch("/auth/logout", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+          });
+          if (res.ok) window.location.href = "/login.html";
+          else alert("Error al cerrar sesión");
+        } catch (e) {
+          console.error("Error al cerrar sesión:", e);
+        }
+      }
+    </script>
+  </body>
+</html>

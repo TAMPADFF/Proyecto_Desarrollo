@@ -1,0 +1,127 @@
+/* 🌙 Evaluación de Solicitudes */
+body {
+  background: linear-gradient(180deg, #0f2027, #203a43, #2c5364);
+  color: #f2f2f2;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+}
+
+/* 🏷️ Encabezado */
+h1 {
+  text-align: center;
+  color: #ffd700; /* dorado suave */
+  margin-top: 25px;
+  text-shadow: 0 0 8px rgba(0, 0, 0, 0.4);
+}
+
+/* 📋 Detalle de la solicitud */
+#detalle-solicitud {
+  background-color: #161b22;
+  padding: 25px;
+  margin: 25px;
+  border-radius: 12px;
+  border: 1px solid #00bfa6;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.6);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+#detalle-solicitud:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 20px rgba(0, 191, 166, 0.3);
+}
+
+/* 🧾 Formulario de evaluación */
+form {
+  background-color: #161b22;
+  padding: 25px;
+  margin: 25px;
+  border-radius: 12px;
+  border: 1px solid #00bfa6;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.6);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+form:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 20px rgba(0, 191, 166, 0.3);
+}
+
+/* 🧩 Inputs y selects */
+form input,
+form select,
+form button {
+  width: 100%;
+  padding: 10px;
+  margin: 12px 0;
+  background-color: #0d1117;
+  border: 1px solid #2d333b;
+  border-radius: 6px;
+  color: #ffffff;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+form input:focus,
+form select:focus {
+  border-color: #00bfa6;
+  box-shadow: 0 0 6px #00bfa6;
+  outline: none;
+}
+
+/* 🔘 Botones principales */
+form button,
+button {
+  background-color: #00bfa6;
+  border: none;
+  color: #ffffff;
+  padding: 12px;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 15px;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+form button:hover,
+button:hover {
+  background-color: #009e89;
+  transform: scale(1.04);
+}
+
+/* 🖼️ Imagen dentro del detalle */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 20px auto;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 191, 166, 0.3);
+  border: 1px solid rgba(0, 191, 166, 0.4);
+}
+
+/* 📸 Imagen dentro del bloque de solicitud */
+#detalle-solicitud img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  border: 1px solid rgba(0, 191, 166, 0.4);
+}
+
+/* ✨ Animación de entrada */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+#detalle-solicitud,
+form {
+  animation: fadeIn 0.8s ease-in-out;
+}

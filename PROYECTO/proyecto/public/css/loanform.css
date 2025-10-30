@@ -1,0 +1,100 @@
+body {
+  font-family: Arial, sans-serif;
+  background: linear-gradient(180deg, #0f2027, #203a43, #2c5364);
+  margin: 0;
+  padding: 20px;
+  color: #f2f2f2;
+  min-height: 100vh;
+}
+
+/* Título */
+h1 {
+  text-align: center;
+  color: #ffd700; /* dorado suave */
+  margin-bottom: 20px;
+  text-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+}
+
+/* Formulario */
+form {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 25px 30px;
+  background-color: #161b22;
+  border-radius: 12px;
+  border: 1px solid #00bfa6; /* contorno turquesa */
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.6);
+}
+
+/* Etiquetas */
+label {
+  display: block;
+  margin-top: 15px;
+  color: #c9d1d9;
+  font-weight: bold;
+}
+
+/* Campos de entrada */
+input,
+select,
+textarea {
+  width: 100%;
+  padding: 10px;
+  margin-top: 6px;
+  border-radius: 6px;
+  border: 1px solid #2d333b;
+  background-color: #0d1117;
+  color: #ffffff;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: #00bfa6;
+  box-shadow: 0 0 6px #00bfa6;
+  outline: none;
+}
+
+/* Botón principal */
+button {
+  width: 100%;
+  background-color: #00bfa6;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 16px;
+  margin-top: 20px;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+button:hover {
+  background-color: #009e89;
+  transform: scale(1.03);
+}
+
+/* Campos de texto largos */
+textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+/* Placeholder más claro */
+input::placeholder,
+textarea::placeholder {
+  color: #8b949e;
+}
+
+/* Línea decorativa debajo del formulario (opcional) */
+form::after {
+  content: "";
+  display: block;
+  width: 60%;
+  height: 2px;
+  margin: 25px auto 0;
+  background: linear-gradient(90deg, transparent, #00bfa6, transparent);
+  border-radius: 2px;
+}

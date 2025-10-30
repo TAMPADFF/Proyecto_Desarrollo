@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lista de Solicitudes</title>
+    <link rel="stylesheet" href="/css/theme.css" />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+        background-color: #1e1e1e;
+        color: #f2f2f2;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: #2b2b2b;
+        color: #f2f2f2;
+      }
+      table,
+      th,
+      td {
+        border: 1px solid #555;
+      }
+      th,
+      td {
+        padding: 10px;
+        text-align: left;
+      }
+      th {
+        background-color: #333;
+      }
+      tr:nth-child(even) {
+        background-color: #2b2b2b;
+      }
+      tr:nth-child(odd) {
+        background-color: #252525;
+      }
+      tr:hover {
+        background-color: #444;
+      }
+      h1 {
+        color: #f2f2f2;
+      }
+
+      /* 🧭 Navbar (actualizada) */
+      .navbar {
+        display: flex;
+        gap: 10px;
+        background-color: #161b22;
+        padding: 12px 16px;
+        border-bottom: 2px solid #00bfa6;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        margin: -20px -20px 20px; /* compensa el margin del body para que la barra cubra todo el ancho */
+      }
+      .navbar a {
+        color: #fff;
+        padding: 10px 16px;
+        text-decoration: none;
+        text-align: center;
+        background-color: #00bfa6;
+        border-radius: 6px;
+        font-weight: 700;
+        transition: background-color 0.3s, transform 0.2s;
+      }
+      .navbar a:hover {
+        background-color: #009e89;
+        transform: translateY(-1px);
+      }
+      /* Botón Cerrar sesión */
+      .navbar a:last-child {
+        background-color: #ff4d4d;
+      }
+      .navbar a:last-child:hover {
+        background-color: #d93636;
+      }
+
+      /* Estilos para la notificación (sin cambios) */
+      #notification {
+        display: none;
+        padding: 10px;
+        margin-top: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+      }
+      #notification.success {
+        background-color: #d4edda;
+        color: #155724;
+      }
+      #notification.error {
+        background-color: #f8d7da;
+        color: #721c24;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navbar -->
+    <div class="navbar">
+      <a href="/loanForm.html">Solicitud de Préstamo</a>
+      <a href="/solicitudes.html">Lista de Solicitudes</a>
+      <a href="/payments.html">Realización de Pagos</a>
+      <a href="/productos.html">Productos en Venta</a>
+      <a href="#" onclick="cerrarSesion()">Cerrar sesión</a>
+    </div>
+
+    <h1>Lista de Solicitudes de Préstamo</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>Categoría</th>
+          <th>Descripción</th>
+          <th>Valor Propuesto</th>
+          <th>Estado</th>
+          <th>Cuotas</th>
+          <th>Valor Cuotas</th>
+          <th>Valor total</th>
+        </tr>
+      </thead>
+      <tbody id="lista-solicitudes">
+        <!-- Aquí se llenarán las solicitudes -->
+      </tbody>
+    </table>
+
+    <div id="notification"></div>
+
+    <script>
+      // Función para cargar la lista de solicitudes
+      async function cargarSolicitudes() {
+        try {
+          const response = await fetch("/solicitudes");
+          const solicitudes = await response.json();
+
+          const listaSolicitudes = document.getElementById("lista-solicitudes");
+          listaSolicitudes.innerHTML = "";
+
+          solicitudes.forEach((solicitud) => {
+            listaSolicitudes.innerHTML += `
+              <tr>
+                <td>${solicitud.categoria}</td>
+                <td>${solicitud.descripcion}</td>
+                <td>Q${solicitud.valor_propuesto}</td>
+                <td>${solicitud.estado}</td>
+                <td>${solicitud.numero_cuotas}</td>
+                <td>${solicitud.valor_cuota}</td>
+                <td>${solicitud.valor_total}</td>
+              </tr>`;
+          });
+        } catch (error) {
+          console.error("Error al cargar las solicitudes:", error);
+          const listaSolicitudes = document.getElementById("lista-solicitudes");
+          listaSolicitudes.innerHTML =
+            '<tr><td colspan="7" style="color:#ff4d4d;text-align:center;">Error al cargar las solicitudes.</td></tr>';
+        }
+      }
+
+      // Cargar las solicitudes cuando la página se cargue
+      window.onload = cargarSolicitudes;
+    </script>
+
+    <script>
+      async function cerrarSesion() {
+        try {
+          const response = await fetch("/auth/logout", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+          });
+          if (response.ok) {
+            window.location.href = "/login.html";
+          } else {
+            alert("Error al cerrar sesión");
+          }
+        } catch (error) {
+          console.error("Error al cerrar sesión:", error);
+        }
+      }
+    </script>
+  </body>
+</html>

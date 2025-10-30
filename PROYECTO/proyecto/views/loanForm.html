@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Solicitud de Préstamo</title>
+    <link rel="stylesheet" href="/css/theme.css" />
+    <link rel="stylesheet" href="/css/loanform.css" />
+    <style>
+      /* 🧭 Navbar */
+      .navbar {
+        display: flex;
+        gap: 10px;
+        background-color: #161b22;
+        padding: 12px 16px;
+        border-bottom: 2px solid #00bfa6;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+        position: sticky;
+        top: 0;
+        z-index: 50;
+      }
+      .navbar a {
+        color: #fff;
+        padding: 10px 16px;
+        text-decoration: none;
+        text-align: center;
+        background-color: #00bfa6;
+        border-radius: 6px;
+        font-weight: 700;
+        transition: background-color 0.3s, transform 0.2s;
+      }
+      .navbar a:hover {
+        background-color: #009e89;
+        transform: translateY(-1px);
+      }
+      .navbar a:last-child {
+        /* Cerrar sesión */
+        background-color: #ff4d4d;
+      }
+      .navbar a:last-child:hover {
+        background-color: #d93636;
+      }
+
+      /* 🌙 Fondo y títulos */
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: linear-gradient(180deg, #0f2027, #203a43, #2c5364);
+        color: #f2f2f2;
+        min-height: 100vh;
+      }
+      h1 {
+        text-align: center;
+        color: #ffd700; /* dorado */
+        margin: 24px 0 10px;
+        text-shadow: 0 0 8px rgba(0, 0, 0, 0.4);
+      }
+
+      /* 📋 Formulario (card) */
+      form {
+        max-width: 680px;
+        margin: 20px auto 40px;
+        padding: 24px;
+        background: #161b22;
+        border: 1px solid #00bfa6;
+        border-radius: 12px;
+        box-shadow: 0 6px 14px rgba(0, 0, 0, 0.6);
+        transition: transform 0.3s, box-shadow 0.3s;
+      }
+      form:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 22px rgba(0, 191, 166, 0.28);
+      }
+
+      label {
+        display: block;
+        margin-top: 14px;
+        color: #c9d1d9;
+        font-weight: 600;
+      }
+      textarea {
+        min-height: 120px;
+        resize: vertical;
+      }
+
+      /* 🧩 Inputs y selects */
+      input[type="number"],
+      input[type="file"],
+      input[type="text"],
+      select,
+      textarea {
+        width: 100%;
+        padding: 10px;
+        margin-top: 6px;
+        background-color: #0d1117;
+        color: #fff;
+        border: 1px solid #2d333b;
+        border-radius: 6px;
+        transition: border-color 0.3s, box-shadow 0.3s;
+      }
+      input:focus,
+      select:focus,
+      textarea:focus {
+        outline: none;
+        border-color: #00bfa6;
+        box-shadow: 0 0 6px #00bfa6;
+      }
+
+      /* 🔘 Botón principal */
+      button[type="submit"] {
+        width: 100%;
+        padding: 12px;
+        margin-top: 18px;
+        background-color: #00bfa6;
+        color: #fff;
+        border: none;
+        border-radius: 6px;
+        font-weight: bold;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s, transform 0.2s;
+      }
+      button[type="submit"]:hover {
+        background-color: #009e89;
+        transform: scale(1.03);
+      }
+
+      /* 🔔 Notificación */
+      #notification {
+        display: none;
+        max-width: 680px;
+        margin: 10px auto 30px;
+        padding: 12px;
+        border-radius: 6px;
+        font-weight: bold;
+        text-align: center;
+      }
+      #notification.success {
+        background-color: rgba(0, 191, 166, 0.2);
+        color: #00bfa6;
+        border: 1px solid #00bfa6;
+      }
+      #notification.error {
+        background-color: rgba(255, 50, 50, 0.2);
+        color: #ff4d4d;
+        border: 1px solid #ff4d4d;
+      }
+
+      /* 📱 Responsivo */
+      @media (max-width: 640px) {
+        .navbar {
+          flex-wrap: wrap;
+          justify-content: center;
+        }
+        form {
+          margin: 16px 12px 36px;
+          padding: 20px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navbar -->
+    <div class="navbar">
+      <a href="/loanForm.html">Solicitud de Préstamo</a>
+      <a href="/solicitudes.html">Lista de Solicitudes</a>
+      <a href="/payments.html">Realización de Pagos</a>
+      <a href="/productos.html">Productos en Venta</a>
+      <a href="#" onclick="cerrarSesion()">Cerrar sesión</a>
+    </div>
+
+    <h1>Solicitud de Préstamo</h1>
+
+    <form id="prestamoForm" enctype="multipart/form-data">
+      <label for="categoria">Categoría del artículo:</label>
+      <select id="categoria" name="categoria">
+        <option value="auto">Auto</option>
+        <option value="celular">Celular</option>
+        <option value="joya">Joya</option>
+        <option value="reloj">Reloj</option>
+        <option value="diamante">Diamante</option>
+        <option value="moneda">Moneda</option>
+        <option value="electronico">Electrónico</option>
+        <option value="herramienta">Herramienta</option>
+      </select>
+
+      <label for="descripcion">Descripción del artículo:</label>
+      <textarea id="descripcion" name="descripcion" required></textarea>
+
+      <label for="valor_propuesto">Valor propuesto:</label>
+      <input
+        type="number"
+        id="valor_propuesto"
+        name="valor_propuesto"
+        required
+      />
+
+      <label for="tiempo">Tiempo del préstamo:</label>
+      <input
+        type="number"
+        id="tiempo"
+        name="tiempo"
+        min="1"
+        max="24"
+        required
+      />
+
+      <label for="fotos">Fotos del artículo:</label>
+      <input type="file" id="fotos" name="fotos" required />
+
+      <label for="documento_tecnico"
+        >Documento técnico (solo artículos electrónicos/tecnológicos):</label
+      >
+      <input type="file" id="documento_tecnico" name="documento_tecnico" />
+
+      <button type="submit">Enviar Solicitud</button>
+    </form>
+
+    <div id="notification"></div>
+
+    <script>
+      document
+        .getElementById("prestamoForm")
+        .addEventListener("submit", async function (event) {
+          event.preventDefault();
+
+          const form = document.getElementById("prestamoForm");
+          const formData = new FormData(form);
+
+          try {
+            const response = await fetch("/solicitud-prestamo", {
+              method: "POST",
+              body: formData,
+            });
+            const result = await response.json();
+
+            const notification = document.getElementById("notification");
+            notification.textContent = result.message || "Operación realizada";
+            notification.className = response.ok ? "success" : "error";
+            notification.style.display = "block";
+          } catch (error) {
+            const notification = document.getElementById("notification");
+            notification.textContent = "Error al enviar la solicitud";
+            notification.className = "error";
+            notification.style.display = "block";
+          }
+        });
+
+      async function cerrarSesion() {
+        try {
+          const response = await fetch("/auth/logout", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+          });
+          if (response.ok) window.location.href = "/login.html";
+          else alert("Error al cerrar sesión");
+        } catch (error) {
+          console.error("Error al cerrar sesión:", error);
+        }
+      }
+    </script>
+  </body>
+</html>

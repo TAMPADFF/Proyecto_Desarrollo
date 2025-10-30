@@ -1,0 +1,253 @@
+/* Theme variables, fonts, utilities and animations */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap");
+
+:root {
+  /* 🎨 Colores base */
+  --color-bg: linear-gradient(180deg, #0f2027, #203a43, #2c5364);
+  --color-card: #161b22;
+  --color-primary: #00bfa6; /* turquesa */
+  --color-accent: #ffd700; /* dorado cálido */
+  --color-muted: #8b949e;
+  --text-light: #f2f2f2;
+  --text-dark: #c9d1d9;
+
+  /* 🔲 Bordes, radios, sombras */
+  --radius: 10px;
+  --shadow-sm: 0 2px 4px rgba(0, 191, 166, 0.15);
+  --shadow-md: 0 8px 20px rgba(0, 191, 166, 0.25);
+
+  /* ✨ Efectos */
+  --transition-fast: all 0.3s ease;
+}
+
+/* 🩶 Base global */
+html,
+body {
+  height: 100%;
+}
+
+body {
+  font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--text-light);
+  background: var(--color-bg);
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* 📦 Container */
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+/* ⚙️ Utilidades de espaciado */
+.mt-1 {
+  margin-top: 8px;
+}
+.mt-2 {
+  margin-top: 16px;
+}
+.mt-3 {
+  margin-top: 24px;
+}
+.mb-1 {
+  margin-bottom: 8px;
+}
+.mb-2 {
+  margin-bottom: 16px;
+}
+.mb-3 {
+  margin-bottom: 24px;
+}
+.px-1 {
+  padding-left: 8px;
+  padding-right: 8px;
+}
+.py-1 {
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+/* 🔘 Botones */
+.btn {
+  display: inline-block;
+  padding: 10px 18px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  transition: var(--transition-fast);
+}
+
+.btn-primary {
+  background: var(--color-primary);
+  color: #fff;
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-primary:hover {
+  background: #009e89;
+  box-shadow: var(--shadow-md);
+}
+
+.btn-accent {
+  background: var(--color-accent);
+  color: #111;
+}
+
+.btn-accent:hover {
+  background: #e6c300;
+}
+
+/* 🧾 Card */
+.card {
+  background: var(--color-card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+  padding: 20px;
+  color: var(--text-light);
+  border: 1px solid rgba(0, 191, 166, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 191, 166, 0.3);
+}
+
+/* 🏷️ Encabezados */
+h1,
+h2,
+h3 {
+  margin: 0 0 10px 0;
+  font-weight: 600;
+  color: var(--color-accent);
+  text-shadow: 0 0 8px rgba(0, 0, 0, 0.4);
+}
+
+/* 🧩 Grillas responsivas */
+.grid {
+  display: grid;
+  gap: 20px;
+}
+.grid-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+.grid-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+@media (max-width: 900px) {
+  .grid-3 {
+    grid-template-columns: 1fr;
+  }
+  .grid-2 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ✍️ Formularios */
+input,
+button,
+select,
+textarea {
+  font-family: inherit;
+  font-size: 1rem;
+  border-radius: 6px;
+}
+
+input[type="text"],
+input[type="password"],
+textarea,
+select {
+  padding: 10px;
+  border: 1px solid #2d333b;
+  background: #0d1117;
+  color: #fff;
+  transition: var(--transition-fast);
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 6px var(--color-primary);
+  outline: none;
+}
+
+/* 🌀 Animaciones */
+.fade-in {
+  animation: fadeIn 0.6s ease both;
+}
+.slide-up {
+  animation: slideUp 0.6s cubic-bezier(0.2, 0.9, 0.3, 1) both;
+}
+.pulse {
+  animation: pulse 1.8s infinite;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(10px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.03);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* 🎯 Enlaces y texto auxiliar */
+.muted {
+  color: var(--color-muted);
+}
+.center {
+  text-align: center;
+}
+
+/* ✨ Accesibilidad */
+:focus {
+  outline: 3px solid rgba(0, 191, 166, 0.4);
+  outline-offset: 2px;
+}
+
+/* 🌟 Hero (usando tema general) */
+.hero {
+  padding: 60px 0;
+  background: linear-gradient(180deg, rgba(0, 191, 166, 0.1), transparent);
+  text-align: center;
+  color: var(--text-light);
+}
+
+/* 📱 Ajuste de transiciones suaves */
+a,
+button,
+select,
+input {
+  transition: var(--transition-fast);
+}

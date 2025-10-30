@@ -1,0 +1,160 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Fondo general */
+body {
+  background: linear-gradient(180deg, #0f2027, #203a43, #2c5364);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: Arial, sans-serif;
+}
+
+/* Contenedor principal */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* Caja de login */
+.login-box {
+  background-color: #161b22;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.5);
+  max-width: 400px;
+  width: 100%;
+  border: 1px solid #00bfa6; /* borde turquesa */
+}
+
+/* Encabezado */
+h2 {
+  text-align: center;
+  color: #ffd700; /* dorado suave */
+  margin-bottom: 15px;
+}
+
+p {
+  text-align: center;
+  color: #9ca3af;
+  margin-bottom: 25px;
+}
+
+/* Inputs */
+.input-group {
+  margin-bottom: 18px;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 5px;
+  color: #c9d1d9;
+  font-size: 14px;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #2d333b;
+  border-radius: 6px;
+  background-color: #0d1117;
+  color: white;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.input-group input::placeholder {
+  color: #8b949e;
+}
+
+.input-group input:focus {
+  border-color: #00bfa6;
+  box-shadow: 0 0 6px #00bfa6;
+  outline: none;
+}
+
+/* Botón principal de login */
+.login-button {
+  width: 100%;
+  padding: 10px;
+  background-color: #00bfa6;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.login-button:hover {
+  background-color: #009e89;
+  transform: scale(1.04);
+}
+
+/* Botón volver o atrás */
+.back-button {
+  width: 100%;
+  padding: 10px;
+  background-color: #177a75;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+  margin-top: 10px;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.back-button:hover {
+  background-color: #10665e;
+  transform: scale(1.03);
+}
+
+/* Enlaces */
+a {
+  color: #58a6ff;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+a:hover {
+  color: #00bfa6;
+  text-decoration: underline;
+}
+
+/* Botones secundarios */
+button {
+  color: #ffffff;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  text-decoration: underline;
+}
+
+/* Enlace "¿Olvidaste tu contraseña?" */
+.forgot-password-link {
+  color: #58a6ff;
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin-bottom: 10px;
+  margin-top: 0;
+  text-align: right;
+  display: block;
+  width: 100%;
+  font-size: 12px;
+  transition: color 0.3s;
+}
+
+.forgot-password-link:hover {
+  color: #00bfa6;
+  text-decoration: underline;
+}

@@ -1,0 +1,136 @@
+/* 🌙 Estilos base */
+body {
+  font-family: Arial, sans-serif;
+  background: linear-gradient(180deg, #0f2027, #203a43, #2c5364);
+  color: #f2f2f2;
+  margin: 0;
+  padding: 20px;
+  min-height: 100vh;
+}
+
+/* 🏷️ Títulos */
+h1,
+h2 {
+  text-align: center;
+  color: #ffd700; /* dorado suave */
+  text-shadow: 0 0 8px rgba(0, 0, 0, 0.4);
+}
+
+/* 📦 Contenedor principal */
+.container {
+  max-width: 900px;
+  margin: 40px auto;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 25px;
+  padding: 20px;
+}
+
+/* 📄 Bloques de detalle y formulario */
+.loan-details,
+.payment-form {
+  flex: 1 1 45%;
+  background-color: #161b22;
+  padding: 25px;
+  border-radius: 12px;
+  border: 1px solid #00bfa6;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.6);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.loan-details:hover,
+.payment-form:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 20px rgba(0, 191, 166, 0.3);
+}
+
+/* 🔹 Texto y etiquetas */
+.loan-details p,
+.payment-form label {
+  color: #c9d1d9;
+  font-size: 15px;
+}
+
+/* 🧾 Detalles individuales */
+.prestamo-detalle {
+  margin-bottom: 18px;
+  background-color: #0d1117;
+  padding: 12px;
+  border-radius: 6px;
+  border: 1px solid #2d333b;
+}
+
+/* 🧩 Inputs y selects */
+input,
+select {
+  width: 100%;
+  padding: 10px;
+  margin-top: 8px;
+  border-radius: 6px;
+  border: 1px solid #2d333b;
+  background-color: #0d1117;
+  color: #ffffff;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+input:focus,
+select:focus {
+  border-color: #00bfa6;
+  box-shadow: 0 0 6px #00bfa6;
+  outline: none;
+}
+
+/* 🔘 Botones */
+button {
+  width: 100%;
+  padding: 12px;
+  background-color: #00bfa6;
+  color: white;
+  cursor: pointer;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  font-size: 16px;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+button:hover {
+  background-color: #009e89;
+  transform: scale(1.04);
+}
+
+/* 🔔 Notificaciones */
+#notification {
+  margin-top: 15px;
+  padding: 12px;
+  border-radius: 6px;
+  display: none;
+  font-weight: bold;
+  text-align: center;
+}
+
+#notification.success {
+  background-color: rgba(0, 191, 166, 0.2);
+  color: #00bfa6;
+  border: 1px solid #00bfa6;
+}
+
+#notification.error {
+  background-color: rgba(255, 50, 50, 0.2);
+  color: #ff4d4d;
+  border: 1px solid #ff4d4d;
+}
+
+/* ✨ Responsivo */
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .loan-details,
+  .payment-form {
+    width: 100%;
+  }
+}

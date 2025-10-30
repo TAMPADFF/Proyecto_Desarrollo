@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <link rel="stylesheet" href="css/theme.css">
+  <link rel="stylesheet" href="css/login.css">
+</head>
+<body>
+
+  <div class="login-container">
+    <div class="login-box">
+      <h2>Login</h2>
+      <p>Ingrese su nombre de correo y contraseña para acceder a su cuenta</p>
+      
+      <form id="loginForm">
+        <div class="input-group">
+          <label>Correo</label>
+          <input
+            type="text"
+            placeholder="Ingrese su correo"
+            id="username"
+            required
+          />
+        </div>
+        <div class="input-group">
+          <label>Contraseña</label>
+          <input
+            type="password"
+            placeholder="Ingrese su contraseña"
+            id="password"
+            required
+          />
+        </div>
+        <button type="button" class="forgot-password-link" onclick="olvide()">
+          Olvidé mi contraseña
+        </button>
+        <button type="submit" class="login-button">Login</button>
+      </form>
+
+      <p style="margin-top: 10px;">
+        ¿No tienes una cuenta? 
+        <button 
+          id="registerBtn", onclick="registrar()"
+          style="color: #58A6FF; background: none; border: none; cursor: pointer;">
+          Regístrate aquí
+        </button>
+      </p>
+      <button id="backToHome" type="button" class="back-button" onclick="regresar()">
+        Regresar a la Página Principal
+      </button>
+    </div>
+  </div>
+
+  <script>
+        // Mostrar notificación si hay un parámetro 'success' en la URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const successMessage = urlParams.get('success');
+        if (successMessage) {
+            const notificationElement = document.getElementById('notification');
+            notificationElement.textContent = successMessage;
+            notificationElement.style.display = 'block';
+        }
+    </script>
+
+    <script>
+    function regresar() {
+      window.location.href = '/index.html'; // Cambia a la ruta de tu archivo login.html
+    }
+    function olvide() {
+      window.location.href = '/forgotPassword.html'; // Cambia a la ruta de tu archivo login.html
+    }
+    </script>
+    <script>
+    function registrar() {
+      window.location.href = '/register.html'; // Cambia a la ruta de tu archivo login.html
+    }
+    </script>
+
+    <script>
+    document.getElementById('loginForm').addEventListener('submit', async function (event) {
+    event.preventDefault(); // Evitar el comportamiento por defecto del formulario
+
+    const formData = {
+        correo: document.getElementById('username').value,
+        clave: document.getElementById('password').value
+    };
+
+    try {
+        const response = await fetch('/auth/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formData)
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            // Redirigir al loanform.html si el login es exitoso
+            window.location.href = data.redirectUrl;
+        } else {
+            const errorText = await response.text();
+            alert('Error en el login: ' + errorText);
+        }
+    } catch (error) {
+        alert('Error en el login: ' + error.message);
+    }
+});
+
+</script>
+
+
+</body>
+</html>

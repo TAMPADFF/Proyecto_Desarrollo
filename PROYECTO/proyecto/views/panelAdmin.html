@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Panel de Administración</title>
+    <link rel="stylesheet" href="/css/theme.css" />
+    <link rel="stylesheet" href="/css/admin.css" />
+    <style>
+      /* 🧭 Navbar (coherente con el resto del sitio) */
+      .navbar {
+        display: flex;
+        gap: 10px;
+        background-color: #161b22;
+        padding: 12px 16px;
+        border-bottom: 2px solid #00bfa6;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        position: sticky;
+        top: 0;
+        z-index: 50;
+      }
+      .navbar a {
+        color: #fff;
+        padding: 10px 16px;
+        text-decoration: none;
+        text-align: center;
+        background-color: #00bfa6;
+        border-radius: 6px;
+        font-weight: 700;
+        transition: background-color 0.3s, transform 0.2s;
+      }
+      .navbar a:hover {
+        background-color: #009e89;
+        transform: translateY(-1px);
+      }
+
+      /* 🧰 Cuerpo y títulos */
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+      }
+      h1 {
+        text-align: center;
+        margin: 20px 0;
+        color: #ffd700; /* dorado */
+        text-shadow: 0 0 8px rgba(0, 0, 0, 0.4);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navbar -->
+    <div class="navbar">
+      <a href="panelAdmin.html">Panel de Administración</a>
+      <a href="insertar-producto.html">Insertar Producto</a>
+      <a href="registerAdmin.html">Registrar</a>
+      <a href="Categorias.html">Registrar Categoría</a>
+      <a href="#" onclick="cerrarSesion()">Cerrar Sesión</a>
+    </div>
+
+    <h1>Panel de Administración</h1>
+
+    <!-- Contenedor de solicitudes (admin.css ya lo estiliza con borde turquesa) -->
+    <div id="solicitudes-pendientes-container">
+      <h2>Solicitudes Pendientes</h2>
+      <!-- Aquí se cargarán las solicitudes pendientes -->
+    </div>
+
+    <script src="/js/panelAdmin.js"></script>
+
+    <script>
+      async function cerrarSesion() {
+        try {
+          const response = await fetch("/auth/logout", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+          });
+          if (response.ok) window.location.href = "/login.html";
+          else alert("Error al cerrar sesión");
+        } catch (e) {
+          console.error("Error al cerrar sesión:", e);
+        }
+      }
+    </script>
+  </body>
+</html>

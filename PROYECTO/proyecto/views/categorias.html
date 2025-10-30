@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Administrar Categorías</title>
+    <link rel="stylesheet" href="/css/theme.css" />
+    <link rel="stylesheet" href="/css/categorias.css" />
+    <style>
+      /* 🌙 Fondo general */
+      body {
+        font-family: Arial, sans-serif;
+        background: linear-gradient(180deg, #0f2027, #203a43, #2c5364);
+        color: #f2f2f2;
+        margin: 0;
+        padding: 0;
+      }
+
+      /* 🧭 Navbar superior */
+      .navbar {
+        display: flex;
+        gap: 10px;
+        background-color: #161b22;
+        padding: 12px 16px;
+        border-bottom: 2px solid #00bfa6;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+        position: sticky;
+        top: 0;
+        z-index: 50;
+      }
+
+      .navbar a {
+        color: #ffffff;
+        padding: 10px 16px;
+        text-decoration: none;
+        text-align: center;
+        background-color: #00bfa6;
+        border-radius: 6px;
+        font-weight: 700;
+        transition: background-color 0.3s, transform 0.2s;
+      }
+
+      .navbar a:hover {
+        background-color: #009e89;
+        transform: translateY(-1px);
+      }
+
+      /* ❗ Botón de cerrar sesión */
+      .navbar a:last-child {
+        background-color: #ff4d4d;
+      }
+
+      .navbar a:last-child:hover {
+        background-color: #d93636;
+      }
+
+      /* 🏷️ Encabezado principal */
+      h1 {
+        text-align: center;
+        color: #ffd700;
+        margin: 30px 0 10px;
+        text-shadow: 0 0 8px rgba(0, 0, 0, 0.4);
+      }
+
+      /* 📋 Contenedor del formulario */
+      .form-container {
+        max-width: 500px;
+        margin: 30px auto;
+        background-color: #161b22;
+        padding: 25px;
+        border-radius: 12px;
+        border: 1px solid #00bfa6;
+        box-shadow: 0 6px 14px rgba(0, 0, 0, 0.6);
+      }
+
+      label {
+        display: block;
+        margin-top: 12px;
+        color: #c9d1d9;
+        font-weight: bold;
+      }
+
+      input,
+      textarea {
+        width: 100%;
+        padding: 10px;
+        margin-top: 6px;
+        border-radius: 6px;
+        border: 1px solid #2d333b;
+        background-color: #0d1117;
+        color: #ffffff;
+        transition: border-color 0.3s, box-shadow 0.3s;
+      }
+
+      input:focus,
+      textarea:focus {
+        outline: none;
+        border-color: #00bfa6;
+        box-shadow: 0 0 6px #00bfa6;
+      }
+
+      /* 🔘 Botón principal */
+      button {
+        width: 100%;
+        padding: 12px;
+        margin-top: 16px;
+        background-color: #00bfa6;
+        border: none;
+        color: white;
+        border-radius: 6px;
+        font-weight: bold;
+        cursor: pointer;
+        font-size: 15px;
+        transition: background-color 0.3s, transform 0.2s;
+      }
+
+      button:hover {
+        background-color: #009e89;
+        transform: scale(1.03);
+      }
+
+      /* 📑 Tabla de categorías */
+      .categoria-list {
+        max-width: 900px;
+        margin: 40px auto;
+        background-color: #161b22;
+        padding: 25px;
+        border-radius: 12px;
+        border: 1px solid #00bfa6;
+        box-shadow: 0 6px 14px rgba(0, 0, 0, 0.6);
+      }
+
+      h2 {
+        color: #ffd700;
+        margin-bottom: 15px;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        text-align: left;
+      }
+
+      th,
+      td {
+        padding: 10px;
+        border-bottom: 1px solid #2d333b;
+      }
+
+      th {
+        background-color: #0d1117;
+        color: #00bfa6;
+      }
+
+      tr:hover {
+        background-color: rgba(0, 191, 166, 0.1);
+      }
+
+      /* 🧩 Botones dentro de la tabla */
+      table button {
+        background-color: #00bfa6;
+        border: none;
+        color: #ffffff;
+        border-radius: 6px;
+        padding: 6px 12px;
+        margin: 0 5px;
+        cursor: pointer;
+        transition: background-color 0.3s, transform 0.2s;
+      }
+
+      table button:hover {
+        background-color: #009e89;
+        transform: scale(1.05);
+      }
+
+      /* Botón eliminar */
+      table button:last-child {
+        background-color: #ff4d4d;
+      }
+
+      table button:last-child:hover {
+        background-color: #d93636;
+      }
+
+      /* ✨ Responsivo */
+      @media (max-width: 700px) {
+        .navbar {
+          flex-wrap: wrap;
+          justify-content: center;
+        }
+
+        .form-container,
+        .categoria-list {
+          margin: 20px 10px;
+          padding: 20px;
+        }
+
+        table,
+        th,
+        td {
+          font-size: 14px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- 🧭 Navbar -->
+    <div class="navbar">
+      <a href="panelAdmin.html">Panel de Administración</a>
+      <a href="insertar-producto.html">Insertar Producto</a>
+      <a href="registerAdmin.html">Registrar</a>
+      <a href="Categorias.html">Registrar Categoría</a>
+      <a href="#" onclick="cerrarSesion()">Cerrar Sesión</a>
+    </div>
+
+    <h1>Administrar Categorías</h1>
+
+    <!-- 📋 Formulario de categoría -->
+    <div class="form-container">
+      <form id="categoriaForm">
+        <input type="hidden" id="categoriaId" />
+
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" required />
+
+        <label for="descripcion">Descripción:</label>
+        <textarea id="descripcion"></textarea>
+
+        <label for="porcentaje_avaluo">Porcentaje de Avalúo:</label>
+        <input type="number" id="porcentaje_avaluo" required />
+
+        <button type="submit" id="submitButton">Agregar Categoría</button>
+      </form>
+    </div>
+
+    <!-- 🗂️ Tabla de categorías -->
+    <div class="categoria-list">
+      <h2>Lista de Categorías</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Descripción</th>
+            <th>Porcentaje Avalúo</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="categoriaTableBody"></tbody>
+      </table>
+    </div>
+
+    <!-- ⚙️ Scripts -->
+    <script>
+      let categorias = [];
+      const categoriaForm = document.getElementById("categoriaForm");
+      const categoriaTableBody = document.getElementById("categoriaTableBody");
+
+      async function cargarCategorias() {
+        const response = await fetch("/api/categorias");
+        categorias = await response.json();
+        mostrarCategorias();
+      }
+
+      function mostrarCategorias() {
+        categoriaTableBody.innerHTML = "";
+        categorias.forEach((categoria) => {
+          categoriaTableBody.innerHTML += `
+            <tr>
+              <td>${categoria.nombre}</td>
+              <td>${categoria.descripcion}</td>
+              <td>${categoria.porcentaje_avaluo}%</td>
+              <td>
+                <button onclick="editarCategoria('${categoria._id}')">Editar</button>
+                <button onclick="eliminarCategoria('${categoria._id}')">Eliminar</button>
+              </td>
+            </tr>`;
+        });
+      }
+
+      categoriaForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const id = document.getElementById("categoriaId").value;
+        const data = {
+          nombre: document.getElementById("nombre").value,
+          descripcion: document.getElementById("descripcion").value,
+          porcentaje_avaluo: document.getElementById("porcentaje_avaluo").value,
+        };
+
+        const url = id ? `/api/categorias/${id}` : "/api/categorias";
+        const method = id ? "PUT" : "POST";
+
+        await fetch(url, {
+          method,
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        });
+
+        categoriaForm.reset();
+        document.getElementById("submitButton").textContent =
+          "Agregar Categoría";
+        cargarCategorias();
+      });
+
+      function editarCategoria(id) {
+        const categoria = categorias.find((c) => c._id === id);
+        document.getElementById("categoriaId").value = categoria._id;
+        document.getElementById("nombre").value = categoria.nombre;
+        document.getElementById("descripcion").value = categoria.descripcion;
+        document.getElementById("porcentaje_avaluo").value =
+          categoria.porcentaje_avaluo;
+        document.getElementById("submitButton").textContent =
+          "Actualizar Categoría";
+      }
+
+      async function eliminarCategoria(id) {
+        await fetch(`/api/categorias/${id}`, { method: "DELETE" });
+        cargarCategorias();
+      }
+
+      window.onload = cargarCategorias;
+    </script>
+
+    <script>
+      async function cerrarSesion() {
+        try {
+          const response = await fetch("/auth/logout", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+          });
+          if (response.ok) window.location.href = "/login.html";
+          else alert("Error al cerrar sesión");
+        } catch (error) {
+          console.error("Error al cerrar sesión:", error);
+        }
+      }
+    </script>
+  </body>
+</html>

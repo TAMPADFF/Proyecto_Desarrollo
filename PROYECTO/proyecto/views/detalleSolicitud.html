@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalle de Solicitud</title>
+    <link rel="stylesheet" href="/css/theme.css">
+    <style>
+        #detalle-container {
+            margin: 20px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        #detalle-container h2 {
+            margin-top: 0;
+        }
+        .label {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div id="detalle-container">
+        <h2>Detalle de Solicitud</h2>
+        <div id="solicitud-detalle">
+            <!-- Aquí se mostrarán los detalles del préstamo -->
+        </div>
+        <button onclick="window.location.href = '/solicitudes.html'">Regresar</button>
+    </div>
+
+    <script>
+        // Obtener el ID de la solicitud desde la URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const solicitudId = urlParams.get('id');
+
+        // Función para cargar los detalles de la solicitud
+        async function cargarDetalleSolicitud() {
+            try {
+                // Asegúrate de que la URL esté bien escrita y contenga el ID correcto
+                const response = await fetch(`/solicitud-detalle/${solicitudId}`);
+                const prestamo = await response.json();
+
+                if (response.ok) {
+                    document.getElementById('solicitud-detalle').innerHTML = `
+                        <p><span class="label">Categoría:</span> ${prestamo.categoria}</p>
+                        <p><span class="label">Descripción:</span> ${prestamo.descripcion}</p>
+                        <p><span class="label">Valor Propuesto:</span> Q${prestamo.valor_propuesto}</p>
+                        <p><span class="label">Tiempo del Préstamo:</span> ${prestamo.tiempo} semanas</p>
+                        <p><span class="label">Estado del Préstamo:</span> ${prestamo.estado}</p>
+                        <p><span class="label">Valor Evaluado:</span> Q${prestamo.valor_evaluado ? prestamo.valor_evaluado : 'No evaluado aún'}</p>
+                    `;
+                } else {
+                    document.getElementById('solicitud-detalle').innerHTML = `
+                        <p>No se encontró la solicitud.</p>
+                    `;
+                }
+            } catch (error) {
+                console.error('Error al cargar el detalle de la solicitud:', error);
+                document.getElementById('solicitud-detalle').innerHTML = `
+                    <p>Error al cargar el detalle de la solicitud.</p>
+                `;
+            }
+        }
+
+        // Cargar los detalles cuando la página se cargue
+        window.onload = cargarDetalleSolicitud;
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registro</title>
+    <link rel="stylesheet" href="css/theme.css">
+    <link rel="stylesheet" href="css/login.css"> <!-- Reutilizando estilos de Login -->
+</head>
+<body>
+
+  <div class="login-container">
+    <div class="login-box">
+      <h2>Regístrate</h2>
+      <p>Crea tu cuenta</p>
+      
+      <form id="registerForm" action="/auth/register" method="POST">
+        <div class="input-group">
+            <label>Nombre</label>
+            <input
+                type="text"
+                placeholder="Ingresa tu nombre"
+                id="nombre"
+                name="nombre"
+                required
+            />
+        </div>
+        <div class="input-group">
+            <label>Email</label>
+            <input
+                type="email"
+                placeholder="Ingresa tu dirección de email"
+                id="correo"
+                name="correo"
+                required
+            />
+        </div>
+        <div class="input-group">
+            <label>Teléfono</label>
+            <input
+                type="tel"
+                placeholder="Ingresa tu número de teléfono"
+                id="telefono"
+                name="telefono"
+                required
+            />
+        </div>
+        <div class="input-group">
+            <label>Dirección</label>
+            <input
+                type="text"
+                placeholder="Ingresa tu dirección"
+                id="direccion"
+                name="direccion"
+                required
+            />
+        </div>
+        <div class="input-group">
+            <label>Contraseña</label>
+            <input
+                type="password"
+                placeholder="Ingresa tu contraseña"
+                id="clave"
+                name="clave"
+                required
+            />
+        </div>
+        <div class="input-group">
+            <label>Confirma tu contraseña</label>
+            <input
+                type="password"
+                placeholder="Confirma tu contraseña"
+                id="confirmPassword"
+                name="confirmPassword"
+                required
+            />
+        </div>
+        <button type="submit" class="login-button">Regístrate</button>
+    </form>
+    
+      <button 
+        id="backToLogin", onclick="volver()"
+        style="color: #58A6FF; background: none; border: none; cursor: pointer; margin-top: 10px;">
+        Ya tengo una cuenta
+      </button>
+    </div>
+  </div>
+
+  <script>
+    function volver() {
+      window.location.href = '/login.html'; // Cambia a la ruta de tu archivo login.html
+    }
+    </script>
+
+    <script>
+    document.getElementById('registerForm').addEventListener('submit', async function (event) {
+    event.preventDefault(); // Evitar el comportamiento por defecto del formulario
+
+    const formData = {
+        nombre: document.getElementById('nombre').value,
+        correo: document.getElementById('correo').value,
+        telefono: document.getElementById('telefono').value,
+        direccion: document.getElementById('direccion').value,
+        clave: document.getElementById('clave').value,
+        confirmPassword: document.getElementById('confirmPassword').value
+    };
+
+    console.log('Datos que se enviarán:', formData); // Agrega este console.log para depuración
+
+    try {
+        const response = await fetch('/auth/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formData)
+        });
+
+        if (response.ok) {
+            // Redirigir al login con un mensaje de éxito
+            window.location.href = '/login?success=Usuario%20registrado%20exitosamente';
+        } else {
+            const errorText = await response.text();
+            alert('Error en el registro: ' + errorText);
+        }
+    } catch (error) {
+        alert('Error en el registro: ' + error.message);
+    }
+});
+
+</script>
+</body>
+</html>

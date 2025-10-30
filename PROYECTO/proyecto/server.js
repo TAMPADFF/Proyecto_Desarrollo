@@ -16,29 +16,32 @@ const { verificarPrestamosVencidos } = require('./src/controllers/prestamoContro
 
 const app = express();
 
-// ================================
+// ====================================================
+// 🧩 Configuración general
+// ====================================================
+
+// Permitir conexiones desde cualquier dominio (para frontend en Netlify/ObjectStorage)
+app.use(cors({ origin: '*', methods: ['GET', 'POST', 'PUT', 'DELETE'], credentials: true }));
+
+// Parseo de cuerpo de peticiones
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
+
+// Servir archivos estáticos (public, uploads y views)
+app.use(express.static(path.join(__dirname, 'public')));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use(express.static(path.join(__dirname, 'views')));
+
+// ====================================================
 // 🌐 Conexión a MongoDB Atlas
-// ================================
+// ====================================================
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log('✅ Conectado a MongoDB Atlas'))
   .catch(err => console.error('❌ Error al conectar a MongoDB:', err));
 
-// ================================
-// ⚙️ Middlewares base
-// ================================
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.json());
-app.use(cors({
-  origin: '*', // o reemplaza con tu dominio de Netlify si lo usas
-}));
-
-// Servir archivos estáticos (CSS, JS, imágenes)
-app.use(express.static(path.join(__dirname, 'public')));
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-
-// ================================
-// 🧠 Configurar sesión persistente en MongoDB Atlas
-// ================================
+// ====================================================
+// 🔐 Configuración de sesión persistente
+// ====================================================
 app.use(session({
   secret: process.env.SECRET_KEY || 'mi_secreto_seguro',
   resave: false,
@@ -48,44 +51,40 @@ app.use(session({
     collectionName: 'sessions'
   }),
   cookie: {
-    secure: false, // Cambia a true si usas HTTPS
+    secure: false, // cámbialo a true si usas HTTPS (Netlify + Render usan HTTPS por defecto)
     maxAge: 1000 * 60 * 60 * 24 // 1 día
   }
 }));
 
-// ================================
-// 📦 Configuración de Multer para subir imágenes
-// ================================
+// ====================================================
+// 🖼️ Configuración de Multer para subir imágenes
+// ====================================================
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, 'uploads/');
-  },
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname));
-  }
+  destination: (req, file, cb) => cb(null, 'uploads/'),
+  filename: (req, file, cb) => cb(null, Date.now() + path.extname(file.originalname))
 });
 const upload = multer({ storage });
 
-// ================================
-// 🚏 Rutas principales
-// ================================
+// ====================================================
+// 🚏 Rutas principales del sistema
+// ====================================================
 app.use('/auth', authRoutes);
 app.use('/api', categoriaRoutes);
 app.use(prestamoRoutes);
 
-// Rutas para vistas HTML
+// ====================================================
+// 🌐 Rutas para las vistas HTML
+// ====================================================
 app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'views', 'index.html')));
-app.get('/login', (req, res) => res.sendFile(path.join(__dirname, 'views', 'login.html')));
-app.get('/register', (req, res) => res.sendFile(path.join(__dirname, 'views', 'register.html')));
-app.get('/loanform.html', (req, res) => res.sendFile(path.join(__dirname, 'views', 'loanform.html')));
-app.get('/solicitudes.html', (req, res) => res.sendFile(path.join(__dirname, 'views', 'solicitudes.html')));
-app.get('/insertar-producto.html', (req, res) => {
-  res.sendFile(path.join(__dirname, 'insertar-producto.html'));
-});
+app.get(['/login', '/login.html'], (req, res) => res.sendFile(path.join(__dirname, 'views', 'login.html')));
+app.get(['/register', '/register.html'], (req, res) => res.sendFile(path.join(__dirname, 'views', 'register.html')));
+app.get(['/loanform', '/loanform.html'], (req, res) => res.sendFile(path.join(__dirname, 'views', 'loanform.html')));
+app.get(['/solicitudes', '/solicitudes.html'], (req, res) => res.sendFile(path.join(__dirname, 'views', 'solicitudes.html')));
+app.get(['/insertar-producto', '/insertar-producto.html'], (req, res) => res.sendFile(path.join(__dirname, 'views', 'insertar-producto.html')));
 
-// ================================
+// ====================================================
 // 🛒 Ruta para insertar productos
-// ================================
+// ====================================================
 app.post('/insertar-producto', upload.single('foto'), async (req, res) => {
   try {
     const { descripcion, categoria, precio } = req.body;
@@ -107,16 +106,16 @@ app.post('/insertar-producto', upload.single('foto'), async (req, res) => {
   }
 });
 
-// ================================
+// ====================================================
 // ⏰ Tarea programada diaria
-// ================================
+// ====================================================
 cron.schedule('0 0 * * *', () => {
   console.log('⏰ Ejecutando verificación de préstamos vencidos...');
   verificarPrestamosVencidos();
 });
 
-// ================================
+// ====================================================
 // 🚀 Inicializar servidor
-// ================================
+// ====================================================
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`🚀 Servidor corriendo en el puerto ${PORT}`));

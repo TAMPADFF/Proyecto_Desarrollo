@@ -3,34 +3,20 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const path = require('path');
-const authRoutes = require('./src/routes/authRoutes');
-const prestamoRoutes = require('./src/routes/prestamoRoutes');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
 const multer = require('multer');
-const Producto = require('./src/models/producto');
-const categoriaRoutes = require('./src/routes/categoriaRoutes');
 const cors = require('cors');
 const cron = require('node-cron');
+
+// Importar rutas y controladores
+const authRoutes = require('./src/routes/authRoutes');
+const prestamoRoutes = require('./src/routes/prestamoRoutes');
+const categoriaRoutes = require('./src/routes/categoriaRoutes');
+const Producto = require('./src/models/producto');
 const { verificarPrestamosVencidos } = require('./src/controllers/prestamoController');
 
 const app = express();
-
-// ====================================================
-// 🧩 Configuración general
-// ====================================================
-
-// Permitir conexiones desde cualquier dominio (para frontend en Netlify/ObjectStorage)
-app.use(cors({ origin: '*', methods: ['GET', 'POST', 'PUT', 'DELETE'], credentials: true }));
-
-// Parseo de cuerpo de peticiones
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.json());
-
-// Servir archivos estáticos (public, uploads y views)
-app.use(express.static(path.join(__dirname, 'public')));
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-app.use(express.static(path.join(__dirname, 'views')));
 
 // ====================================================
 // 🌐 Conexión a MongoDB Atlas
@@ -38,6 +24,25 @@ app.use(express.static(path.join(__dirname, 'views')));
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log('✅ Conectado a MongoDB Atlas'))
   .catch(err => console.error('❌ Error al conectar a MongoDB:', err));
+
+// ====================================================
+// ⚙️ Middlewares globales
+// ====================================================
+
+// Permitir peticiones desde el mismo Render (frontend + backend juntos)
+app.use(cors({
+  origin: '*',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true
+}));
+
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
+
+// Servir archivos estáticos
+app.use(express.static(path.join(__dirname, 'public')));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use(express.static(path.join(__dirname, 'views')));
 
 // ====================================================
 // 🔐 Configuración de sesión persistente
@@ -51,13 +56,13 @@ app.use(session({
     collectionName: 'sessions'
   }),
   cookie: {
-    secure: false, // cámbialo a true si usas HTTPS (Netlify + Render usan HTTPS por defecto)
+    secure: false, // cámbialo a true si Render usa HTTPS (normalmente sí)
     maxAge: 1000 * 60 * 60 * 24 // 1 día
   }
 }));
 
 // ====================================================
-// 🖼️ Configuración de Multer para subir imágenes
+// 📦 Configuración de subida de imágenes con Multer
 // ====================================================
 const storage = multer.diskStorage({
   destination: (req, file, cb) => cb(null, 'uploads/'),
@@ -66,14 +71,14 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 // ====================================================
-// 🚏 Rutas principales del sistema
+// 🚏 Rutas principales (API)
 // ====================================================
 app.use('/auth', authRoutes);
 app.use('/api', categoriaRoutes);
 app.use(prestamoRoutes);
 
 // ====================================================
-// 🌐 Rutas para las vistas HTML
+// 🌐 Rutas de vistas HTML (frontend)
 // ====================================================
 app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'views', 'index.html')));
 app.get(['/login', '/login.html'], (req, res) => res.sendFile(path.join(__dirname, 'views', 'login.html')));
@@ -107,7 +112,7 @@ app.post('/insertar-producto', upload.single('foto'), async (req, res) => {
 });
 
 // ====================================================
-// ⏰ Tarea programada diaria
+// ⏰ Tareas automáticas (cron jobs)
 // ====================================================
 cron.schedule('0 0 * * *', () => {
   console.log('⏰ Ejecutando verificación de préstamos vencidos...');

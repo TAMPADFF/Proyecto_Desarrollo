@@ -18,7 +18,7 @@
         <div class="input-group">
           <label>Correo</label>
           <input
-            type="text"
+            type="email"
             placeholder="Ingrese su correo"
             id="username"
             required
@@ -42,7 +42,7 @@
       <p style="margin-top: 10px;">
         ¿No tienes una cuenta? 
         <button 
-          id="registerBtn", onclick="registrar()"
+          id="registerBtn" onclick="registrar()"
           style="color: #58A6FF; background: none; border: none; cursor: pointer;">
           Regístrate aquí
         </button>
@@ -54,63 +54,44 @@
   </div>
 
   <script>
-        // Mostrar notificación si hay un parámetro 'success' en la URL
-        const urlParams = new URLSearchParams(window.location.search);
-        const successMessage = urlParams.get('success');
-        if (successMessage) {
-            const notificationElement = document.getElementById('notification');
-            notificationElement.textContent = successMessage;
-            notificationElement.style.display = 'block';
-        }
-    </script>
-
-    <script>
     function regresar() {
-      window.location.href = '/index.html'; // Cambia a la ruta de tu archivo login.html
+      window.location.href = '/index.html';
     }
     function olvide() {
-      window.location.href = '/forgotPassword.html'; // Cambia a la ruta de tu archivo login.html
+      window.location.href = '/forgotPassword.html';
     }
-    </script>
-    <script>
     function registrar() {
-      window.location.href = '/register.html'; // Cambia a la ruta de tu archivo login.html
+      window.location.href = '/register.html';
     }
-    </script>
 
-    <script>
+    // 🔐 Lógica de login
     document.getElementById('loginForm').addEventListener('submit', async function (event) {
-    event.preventDefault(); // Evitar el comportamiento por defecto del formulario
+      event.preventDefault();
 
-    const formData = {
+      const formData = {
         correo: document.getElementById('username').value,
         clave: document.getElementById('password').value
-    };
+      };
 
-    try {
+      try {
         const response = await fetch('/auth/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(formData)
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(formData)
         });
 
         if (response.ok) {
-            const data = await response.json();
-            // Redirigir al loanform.html si el login es exitoso
-            window.location.href = data.redirectUrl;
+          const data = await response.json();
+          window.location.href = data.redirectUrl;
         } else {
-            const errorText = await response.text();
-            alert('Error en el login: ' + errorText);
+          const data = await response.json().catch(() => ({}));
+          alert(data.message || '❌ Credenciales incorrectas o usuario no encontrado');
         }
-    } catch (error) {
-        alert('Error en el login: ' + error.message);
-    }
-});
-
-</script>
-
+      } catch (error) {
+        alert('⚠️ Error en el login: ' + error.message);
+      }
+    });
+  </script>
 
 </body>
 </html>
